@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup Form</title>
+<style>
+    .error-message {
+        color: red;
+    }
+    .success-message {
+        color: green;
+    }
+</style>
+</head>
+<body>
+<h2>Signup Form</h2>
+<form id="signupForm">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <span id="usernameError" class="error-message"></span>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <span id="emailError" class="error-message"></span>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <span id="passwordError" class="error-message"></span>
+    </div>
+    <button type="submit" id="submitButton" disabled>Signup</button>
+</form>
+<script>
+    const form = document.getElementById('signupForm');
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const submitButton = document.getElementById('submitButton');
+
+    // Function to update submit button state based on form validity
+    function updateSubmitButton() {
+        const isValid = form.checkValidity();
+        submitButton.disabled = !isValid;
+    }
+
+    // Function to validate username
+    function validateUsername() {
+        const usernameValue = usernameInput.value.trim();
+        const isValid = /^[a-zA-Z0-9]{6,}$/.test(usernameValue);
+        const messageElement = document.getElementById('usernameError');
+        messageElement.textContent = isValid ? '' : 'Username must be alphanumeric and at least 6 characters long.';
+        messageElement.className = isValid ? 'success-message' : 'error-message';
+        updateSubmitButton();
+    }
+
+    // Function to validate email
+    function validateEmail() {
+        const emailValue = emailInput.value.trim();
+        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
+        const messageElement = document.getElementById('emailError');
+        messageElement.textContent = isValid ? '' : 'Please enter a valid email address.';
+        messageElement.className = isValid ? 'success-message' : 'error-message';
+        updateSubmitButton();
+    }
+
+    // Function to validate password
+    function validatePassword() {
+        const passwordValue = passwordInput.value.trim();
+        const isValid = passwordValue.length >= 8;
+        const messageElement = document.getElementById('passwordError');
+        messageElement.textContent = isValid ? '' : 'Password must be at least 8 characters long.';
+        messageElement.className = isValid ? 'success-message' : 'error-message';
+        updateSubmitButton();
+    }
+
+    // Add event listeners for input fields
+    usernameInput.addEventListener('input', validateUsername);
+    emailInput.addEventListener('input', validateEmail);
+    passwordInput.addEventListener('input', validatePassword);
+
+    // Initial validation on page load
+    validateUsername();
+    validateEmail();
+    validatePassword();
+</script>
+</body>
+</html>
